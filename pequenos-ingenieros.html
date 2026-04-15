@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Pequeños Ingenieros | Clase Gratis de Robótica</title>
+  <meta
+    name="description"
+    content="Academia de robótica presencial en Ciénaga de Oro. Clase demostrativa gratis para niños de 8 a 13 años." />
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    /* ===== Variables de color ===== */
+    :root {
+      --bg: #07101f;
+      --surface: #0f172a;
+      --surface-alt: #11223b;
+      --text: #eff4ff;
+      --muted: #94a3b8;
+      --primary: #1d4ed8;
+      --primary-soft: #3b82f6;
+      --accent: #fb923c;
+      --accent-dark: #f97316;
+      --white: #ffffff;
+      --border: rgba(226, 232, 240, 0.12);
+      --shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
+      --radius: 28px;
+    }
+
+    /* ===== Reset ligero ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(251, 146, 60, 0.14), transparent 25%),
+        linear-gradient(180deg, #08101f 0%, #07101f 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .section-padding {
+      padding: 2.4rem 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.4rem 0 0;
+    }
+
+    .brand {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--text);
+      border: 1px solid rgba(59, 130, 246, 0.22);
+    }
+
+    .hero {
+      display: grid;
+      gap: 2rem;
+      padding: 1.5rem 0 2rem;
+    }
+
+    .hero-copy {
+      max-width: 680px;
+    }
+
+    .hero-copy h1 {
+      margin: 0;
+      font-size: clamp(2.6rem, 8vw, 4.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      text-transform: none;
+    }
+
+    .hero-copy p {
+      margin: 1.6rem 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 48rem;
+    }
+
+    .hero-actions {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1rem 1.4rem;
+      border-radius: 999px;
+      font-weight: 700;
+      border: none;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: var(--white);
+      box-shadow: 0 18px 45px rgba(251, 146, 60, 0.24);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 52px rgba(251, 146, 60, 0.28);
+    }
+
+    .hero-copy .urgency {
+      margin-top: 1.4rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.95rem 1rem;
+      border-radius: 999px;
+      background: rgba(251, 146, 60, 0.12);
+      color: var(--white);
+      border: 1px solid rgba(251, 146, 60, 0.2);
+      font-size: 0.95rem;
+      max-width: fit-content;
+    }
+
+    .hero-metrics {
+      margin-top: 2.5rem;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    .metric-card {
+      padding: 1.1rem 1.2rem;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+      min-height: 104px;
+    }
+
+    .metric-card strong {
+      display: block;
+      font-size: 1.35rem;
+      color: var(--white);
+    }
+
+    .metric-card span {
+      display: block;
+      margin-top: 0.5rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .hero-visual {
+      position: relative;
+      border-radius: 36px;
+      min-height: 420px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.22), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(251, 146, 60, 0.18), transparent 30%);
+      pointer-events: none;
+    }
+
+    .visual-card {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 1rem;
+      height: 100%;
+    }
+
+    .visual-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.9rem 1rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      width: fit-content;
+      color: var(--white);
+      font-size: 0.96rem;
+    }
+
+    .visual-chip span {
+      width: 1rem;
+      height: 1rem;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.22);
+    }
+
+    .project-preview {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+      margin-top: 1.1rem;
+    }
+
+    .project-card {
+      padding: 1rem 1.1rem;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: transform 0.26s ease, border-color 0.26s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(59, 130, 246, 0.26);
+    }
+
+    .project-card h4 {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--white);
+    }
+
+    .project-card p {
+      margin: 0.75rem 0 0;
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 3rem;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 5vw, 2rem);
+      color: var(--white);
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .benefit-card,
+    .feature-card,
+    .level-card,
+    .location-card,
+    .cta-banner {
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      transition: transform 0.26s ease, border-color 0.26s ease;
+    }
+
+    .benefit-card:hover,
+    .feature-card:hover,
+    .level-card:hover,
+    .location-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(251, 146, 60, 0.22);
+    }
+
+    .benefit-card h3,
+    .feature-card h3,
+    .level-card h3,
+    .location-card h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--white);
+    }
+
+    .benefit-card p,
+    .feature-card p,
+    .level-card p,
+    .location-card p {
+      margin: 0.9rem 0 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .feature-card {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .feature-card .icon {
+      width: 3rem;
+      height: 3rem;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--white);
+      font-size: 1.3rem;
+    }
+
+    .levels-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .cta-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.8rem;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(251, 146, 60, 0.16));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .cta-banner h2 {
+      margin: 0;
+      font-size: 1.75rem;
+      color: var(--white);
+      max-width: 660px;
+    }
+
+    .cta-banner p {
+      margin: 0.75rem 0 0;
+      color: var(--muted);
+      max-width: 540px;
+    }
+
+    .location-card {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 2rem 0 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    .whatsapp-fixed {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #25d366, #1ebe57);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 24px 50px rgba(37, 211, 102, 0.24);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .whatsapp-fixed:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 26px 56px rgba(37, 211, 102, 0.32);
+    }
+
+    .whatsapp-fixed svg {
+      width: 30px;
+      height: 30px;
+      fill: white;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Mobile first ===== */
+    @media (max-width: 840px) {
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 320px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100%, calc(100% - 24px));
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(2.4rem, 8vw, 3.4rem);
+      }
+
+      .hero-metrics,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .section-padding {
+        padding: 1.8rem 0;
+      }
+
+      .cta-banner {
+        padding: 1.5rem;
+      }
+
+      .project-card,
+      .benefit-card,
+      .feature-card,
+      .level-card,
+      .location-card {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Header con marca y CTA inmediato -->
+    <header>
+      <div class="brand">Pequeños <span>Ingenieros</span></div>
+      <a class="btn btn-primary" href="https://wa.me/573001712375" target="_blank" rel="noopener noreferrer">
+        Reservar por WhatsApp
+      </a>
+    </header>
+
+    <!-- Sección HERO principal -->
+    <section class="hero section-padding">
+      <div class="hero-copy">
+        <div class="top-badge">Clase demostrativa GRATIS por tiempo limitado</div>
+        <h1>Robótica presencial en Ciénaga de Oro para niños de 8 a 13 años</h1>
+        <p>
+          Descubre un curso diseñado para despertar la curiosidad, fortalecer el pensamiento lógico
+          y construir robots reales con materiales seguros y guías expertas.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://wa.me/573001712375" target="_blank" rel="noopener noreferrer">
+            Reservar clase gratis
+          </a>
+          <span class="urgency">Cupos limitados para este mes</span>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-card">
+            <strong>+50 alumnos</strong>
+            <span>Ya desarrollan sus primeros robots.</span>
+          </div>
+          <div class="metric-card">
+            <strong>100% práctica</strong>
+            <span>Todos los niños trabajan con piezas y circuitos reales.</span>
+          </div>
+          <div class="metric-card">
+            <strong>Guías en STEM</strong>
+            <span>Profesional y amigable con los niños.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual fade-up">
+        <div class="visual-card">
+          <div class="visual-chip">
+            <span>🚀</span>
+            Proyectos que motivan
+          </div>
+          <div class="project-preview">
+            <article class="project-card">
+              <h4>Circuitos eléctricos</h4>
+              <p>Conectan componentes y ven cómo la energía mueve luces y sensores.</p>
+            </article>
+            <article class="project-card">
+              <h4>Carros con motor</h4>
+              <p>Construyen vehículos con control remoto y motores pequeños.</p>
+            </article>
+            <article class="project-card">
+              <h4>Robots básicos</h4>
+              <p>Programan movimientos simples para que el robot recorra rutas.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Beneficios del programa -->
+    <section class="section-padding">
+      <div class="section-title">
+        <h2>Beneficios para tu hijo</h2>
+      </div>
+      <div class="grid-2">
+        <article class="benefit-card fade-up">
+          <h3>Pensamiento lógico</h3>
+          <p>Aprender a resolver retos paso a paso fortalece el razonamiento matemático.</p>
+        </article>
+        <article class="benefit-card fade-up">
+          <h3>Creatividad</h3>
+          <p>Los niños inventan diseños, personalizan proyectos y prueban nuevas ideas.</p>
+        </article>
+        <article class="benefit-card fade-up">
+          <h3>Trabajo en equipo</h3>
+          <p>Colaboran, comparten roles y se comunican para lograr objetivos comunes.</p>
+        </article>
+        <article class="benefit-card fade-up">
+          <h3>Habilidad crítica</h3>
+          <p>Analizan resultados y mejoran sus soluciones con cada prueba.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Proyectos destacados -->
+    <section class="section-padding">
+      <div class="section-title">
+        <h2>Proyectos que dominan</h2>
+      </div>
+      <div class="grid-2">
+        <article class="feature-card fade-up">
+          <div class="icon">💡</div>
+          <h3>Circuitos eléctricos</h3>
+          <p>Prácticas con luces, sensores y conexiones seguras para construir habilidades básicas.</p>
+        </article>
+        <article class="feature-card fade-up">
+          <div class="icon">🚗</div>
+          <h3>Carros con motor</h3>
+          <p>Crean vehículos móviles y entienden cómo el motor transforma energía en movimiento.</p>
+        </article>
+        <article class="feature-card fade-up">
+          <div class="icon">🤖</div>
+          <h3>Robots básicos</h3>
+          <p>Programan comportamientos sencillos y ven su robot cobrar vida con instrucciones.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Programa por niveles -->
+    <section class="section-padding">
+      <div class="section-title">
+        <h2>Sobre el programa</h2>
+      </div>
+      <div class="levels-grid">
+        <article class="level-card fade-up">
+          <h3>Nivel 1: Exploradores</h3>
+          <p>Se introducen los conceptos de robótica, circuitos y programación básica.</p>
+        </article>
+        <article class="level-card fade-up">
+          <h3>Nivel 2: Constructores</h3>
+          <p>Se profundiza en proyectos guiados con sensores y mecanismos reales.</p>
+        </article>
+        <article class="level-card fade-up">
+          <h3>Nivel 3: Inventores</h3>
+          <p>Los niños diseñan sus propias soluciones, prototipos y retos creativos.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Clase gratis / CTA fuerte -->
+    <section class="section-padding">
+      <div class="cta-banner fade-up">
+        <div>
+          <h2>Clase demostrativa GRATIS de robótica</h2>
+          <p>Inscripción inmediata por WhatsApp y asesoría personalizada para tu hijo. Aprovecha cupos limitados.</p>
+        </div>
+        <a class="btn btn-primary" href="https://wa.me/573001712375" target="_blank" rel="noopener noreferrer">
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </section>
+
+    <!-- Ubicación del centro -->
+    <section class="section-padding">
+      <div class="section-title">
+        <h2>Ubicación</h2>
+      </div>
+      <article class="location-card fade-up">
+        <h3>Instituto IDECO – sede Ciénaga de Oro</h3>
+        <p>Calle principal #12-34, Ciénaga de Oro, Córdoba. Fácil acceso para padres y espacio seguro para niños.</p>
+      </article>
+    </section>
+
+    <!-- Footer con enlaces y marca -->
+    <footer class="footer">
+      <div>© 2026 Pequeños Ingenieros. Todos los derechos reservados.</div>
+      <div class="footer-links">
+        <a href="https://wa.me/573001712375" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href="#">Inicio</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Botón fijo de WhatsApp -->
+  <a class="whatsapp-fixed" href="https://wa.me/573001712375" target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12a11.93 11.93 0 002.07 6.65L0 24l5.59-2.03A11.94 11.94 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52zm-8.53 17.33c-1.92 0-3.82-.52-5.45-1.5l-.39-.23-3.32 1.21 1.12-3.25-.26-.41A8.52 8.52 0 013.5 12c0-4.7 3.83-8.53 8.53-8.53 2.28 0 4.42.89 6.03 2.5a8.486 8.486 0 012.5 6.03c.01 4.7-3.82 8.53-8.53 8.53zm4.74-6.44c-.07-.11-.27-.17-.57-.3-.29-.12-1.72-.84-1.99-.94-.27-.11-.47-.17-.67.17-.2.34-.77.94-.94 1.13-.17.2-.34.22-.63.08-.29-.13-1.23-.45-2.35-1.45-.87-.77-1.46-1.72-1.63-2.01-.17-.29-.02-.45.13-.58.14-.14.31-.34.47-.5.15-.15.2-.25.3-.42.1-.17.05-.31-.02-.43-.07-.12-.67-1.62-.92-2.23-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.53.08-.81.38-.27.29-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.19 2.09 3.2 5.06 4.49.71.31 1.26.5 1.69.64.71.23 1.36.2 1.87.12.57-.09 1.72-.7 1.96-1.37.24-.67.24-1.24.17-1.37z" />
+    </svg>
+  </a>
+
+  <script>
+    // Animación suave de secciones cuando aparecen en pantalla
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    document.querySelectorAll('.fade-up').forEach((section) => {
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>
